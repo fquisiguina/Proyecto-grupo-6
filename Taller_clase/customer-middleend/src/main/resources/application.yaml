@@ -1,0 +1,11 @@
+server:
+  port: 8070
+
+spring:
+  application:
+    name: customer-middleend
+
+  eureka:
+    client:
+      serviceUrl:
+        defaultZone: http://localhost:8761/eureka/
