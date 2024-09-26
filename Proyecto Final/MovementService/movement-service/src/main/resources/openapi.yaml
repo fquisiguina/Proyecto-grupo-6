@@ -1,0 +1,170 @@
+openapi: 3.0.3
+info:
+  title: Swagger Movements - OpenAPI 3.0
+  description: |-
+    <div style="text-align: justify;">
+      <h3>Maestría en Software - Diseño de patrones de API</h3>
+      
+      <img src="https://blogposgrados.ups.edu.ec/hs-fs/hubfs/Logo-Posgrados.png?width=1517&height=262&name=Logo-Posgrados.png" alt="Image" align="right" width="400"/>
+      
+      <p>This is a contract to manage movemets data based on the OpenAPI 3.0 specification.This is a contract that uses the API First-Contract principle to standardize the creation of endpoints to be used in our service and improve the development of our APIs.</p> 
+    </div>
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: vvicente@est.ups.edu.ec
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0 - SNAPSHOT
+
+externalDocs:
+  description: Historia de usuario
+  url: https://github.com/users/fquisiguina/projects/4/views/1?pane=issue&itemId=80820453
+
+servers:
+  - url: http://localhost:8086/api/v1
+    description: service
+  - url: http://localhost:8083/api/v1
+    description: middleen
+  - url: http://localhost:8080/api/v1
+    description: api-gateway
+
+tags:
+  - name: movement
+    description: Everything about movements
+
+paths:
+  /movements:
+    post:
+      tags:
+        - movement
+      summary: Create a new movement
+      description: Create a new movement with an Unique ID
+      operationId: createMovement
+      parameters:
+        - name: x-sw-client-request-id
+          in: header
+          description: Unique ID for the request
+          required: true
+          schema:
+            type: string
+        - name: x-sw-client-user-agent
+          in: header
+          description: Type of device that consume Endpoint
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Created product object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movement'
+      responses:
+        '201':
+          description: succesfull operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movement'
+        '400':
+          description: The server could not understand the request because of incorrect syntax
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Conflict error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /movements/accounts/{accountId}:
+    get:
+      tags:
+        - movement
+      summary: Get movements by acccountId
+      description: Get movements by acccountId
+      operationId: getMovementByAccount
+      parameters:
+        - name: accountId
+          in: path
+          description: Unique ID for account
+          required: true
+          schema:
+            type: string
+        - name: x-sw-client-request-id
+          in: header
+          description: Unique ID for the request
+          required: true
+          schema:
+            type: string
+        - name: x-sw-client-user-agent
+          in: header
+          description: Type of device that consume Endpoint
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: succesfull operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movement'
+
+        '204':
+          description: No content
+        '400':
+          description: The server could not understand the request because of incorrect syntax
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Movement:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        typeMovement:
+          type: string
+          enum:
+            - DEPOSITO
+            - RETIRO
+        amount:
+          type: number
+          format: double
+        accountId:
+          type: integer
+          format: int64
+      required:
+        - name
+        - typeMovement
+        - amount
+        - accountId
+      
+    Error:
+      type: object
+      properties:
+        title:
+          type: string
+        detail:
+          type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+        status:
+          type: integer
+    ErrorDetail:
+      type: object
+      properties:
+        message:
+          type: string

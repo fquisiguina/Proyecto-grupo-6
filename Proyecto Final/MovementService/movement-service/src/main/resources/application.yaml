@@ -1,0 +1,20 @@
+server:
+  port: 8086
+  servlet:
+    context-path: /api/v1
+spring:
+  application:
+    name: movement-service
+  datasource:
+    url:  jdbc:postgresql://localhost:5434/movements_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
