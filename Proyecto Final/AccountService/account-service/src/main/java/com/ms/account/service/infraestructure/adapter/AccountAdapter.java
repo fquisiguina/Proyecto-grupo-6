@@ -7,6 +7,7 @@ import com.ms.account.service.infraestructure.adapter.out.account.entity.Account
 import com.ms.account.service.infraestructure.adapter.out.account.repository.AccountRepository;
 import com.ms.account.service.infraestructure.adapter.out.account.repository.mappers.AccountMapperM;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -32,7 +33,9 @@ public class AccountAdapter implements AccountOutPort {
 
 
     @Override
-    public Account getById(Long id) {
+    public Account getById(Long id)  {
+
+
         Optional<AccountEntity> optional = accountRepository.findById(id);
 
         if (optional.isPresent()) {
@@ -40,11 +43,7 @@ public class AccountAdapter implements AccountOutPort {
             return  accountMapperM.toAccount(accountRepository.save(accountEntity));
 
         } else {
-            try {
-                throw new AccountNotFoundException("Account not found");
-            } catch (AccountNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            throw new AccountNotFoundException("Account not found");
         }
     }
 

@@ -1,6 +1,7 @@
 package com.ms.account.service.infraestructure.adapter.in.rest;
 
 import com.ms.account.service.application.ports.in.AccountInPort;
+import com.ms.account.service.domain.exceptions.AccountNotFoundException;
 import com.ms.account.service.infraestructure.adapter.in.rest.mappers.AccountDomainMapper;
 import com.ms.account.service.server.models.Account;
 import com.ms.customer.service.server.AccountsApi;
@@ -31,8 +32,9 @@ public class AccountController implements AccountsApi{
     @Override
     @CrossOrigin
     public ResponseEntity<Account> getAccountById(Long id, String xSwClientRequestId, String xCmClientUserAgent) {
-        com.ms.account.service.domain.models.Account account = accountInPort.getById(id);
-        return new ResponseEntity<>(accountDomainMapper.toAccount(account), HttpStatus.OK);
+        System.out.println("llego: " + id);
+            com.ms.account.service.domain.models.Account account = accountInPort.getById(id);
+            return new ResponseEntity<>(accountDomainMapper.toAccount(account), HttpStatus.OK);
     }
 
 

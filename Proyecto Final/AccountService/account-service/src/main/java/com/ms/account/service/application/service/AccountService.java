@@ -2,6 +2,7 @@ package com.ms.account.service.application.service;
 
 import com.ms.account.service.application.ports.in.AccountInPort;
 import com.ms.account.service.application.ports.out.AccountOutPort;
+import com.ms.account.service.domain.exceptions.AccountNotFoundException;
 import com.ms.account.service.domain.models.Account;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
