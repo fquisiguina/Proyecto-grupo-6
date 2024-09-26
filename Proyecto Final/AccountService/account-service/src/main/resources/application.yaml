@@ -1,0 +1,17 @@
+server:
+  servlet:
+    context-path: /api/v1
+  port: 8085
+
+spring:
+  application:
+    name: account-service
+  datasource:
+    url: jdbc:postgresql://localhost:5433/bank
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: 12345
+  jpa:
+    show-sql: true
+    properties:
+      hibernate.format_sql: true

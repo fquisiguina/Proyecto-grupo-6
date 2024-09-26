@@ -1,0 +1,320 @@
+openapi: 3.0.3
+info:
+  title: Proyecto Final - Swagger Account - OpenAPI 3.0
+  description: |-
+    <div style="text-align: justify;">
+      <h2>Maestría en Software - Diseño de patrones de API</h2>
+      
+      <img src="https://blogposgrados.ups.edu.ec/hs-fs/hubfs/Logo-Posgrados.png?width=1517&height=262&name=Logo-Posgrados.png" alt="Image" align="right" width="400"/>
+      
+      <p>This is a contract to manage account data based on the OpenAPI 3.0 specification.This is a contract that uses the API First-Contract principle to standardize the creation of endpoints to be used in our service and improve the development of our APIs.</p> 
+    </div>
+  termsOfService:   http://swagger.io/terms/
+  contact:
+    email: fquisiguina@est.ups.edu.ec
+  license:
+    name: Apache 2.0
+    url:   http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0 - SNAPSHOT
+  
+externalDocs:
+  description: User Story
+  url: https://github.com/users/fquisiguina/projects/4/views/1
+  
+
+servers:
+  - url: http://localhost:8085/api/v1
+    description: account-service
+  - url: http://localhost:8082/api/v1
+    description: account-midleend
+  - url: http://localhost:8080/api/v1
+    description: api-gateway
+  
+tags:
+  - name: account
+    description: Everything about account
+    
+paths:
+  /accounts:
+    post:
+      tags:
+        - account
+      summary: Create a new account
+      externalDocs:
+        description: user story for create a new account
+        url: https://github.com/users/fquisiguina/projects/4/views/1?pane=issue&itemId=80820449
+      description: Create a new account with an Unique ID
+      operationId: createAccount
+      parameters:
+        - name: x-sw-client-request-id
+          in: header
+          description: Unique ID  for the request
+          required: true
+          schema:
+            type: string
+        - name: x-cm-client-user-agent
+          in: header
+          description: Type of device that consume the endpoint
+          required: true
+          schema:
+            type: string
+      requestBody: 
+        description: Created product object
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Account'
+      responses:
+        '201':
+          description: account successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          description: The server could not understand the request because of incorrect syntax
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: The service customer-service is not available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+                
+  /accounts/{id}:
+    get:
+      tags:
+        - account
+      summary: Get an account by ID
+      externalDocs:
+        description: user story for get an account by ID
+        url: https://github.com/users/fquisiguina/projects/4/views/1?pane=issue&itemId=80820450
+      description: Retrieve an account using its unique ID
+      operationId: getAccountById
+      parameters:
+        - name: id
+          in: path
+          description: Unique ID of the account
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: x-sw-client-request-id
+          in: header
+          description: Unique ID  for the request
+          required: true
+          schema:
+            type: string
+        - name: x-cm-client-user-agent
+          in: header
+          description: Type of device that consume the endpoint
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: account successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '204':
+          description: account not found 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: The server could not understand the request because of incorrect syntax
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error' 
+    put:
+      tags:
+        - account
+      summary: Update a transaction in an account
+      externalDocs:
+        description: user story for update a transaction in an account
+        url: https://github.com/users/fquisiguina/projects/4/views/1?pane=issue&itemId=80820452
+      description: Update a specific transaction or movement in an account using its unique ID
+      operationId: updateAccountMovement
+      parameters:
+        - name: id
+          in: path
+          description: Unique ID of the account
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: x-sw-client-request-id
+          in: header
+          description: Unique ID for the request
+          required: true
+          schema:
+            type: string
+        - name: x-cm-client-user-agent
+          in: header
+          description: Type of device that consumes the endpoint
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Object representing the updated movement in the account
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movement'
+      responses:
+        '200':
+          description: Movement successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '204':
+          description: account not found 
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: The service customer-service is not available
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: The server could not understand the request because of incorrect syntax
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error' 
+                
+               
+                
+  /accounts/customer/{id}:
+    get:
+      tags:
+        - account
+      summary: Get all accounts for a customer by ID
+      externalDocs:
+        description: user story for get all accounts for a customer by ID
+        url: https://github.com/users/fquisiguina/projects/4/views/1?pane=issue&itemId=80820451
+      description: Retrieve all accounts associated with a specific customer using their unique ID
+      operationId: getAccountsByCustomerId
+      parameters:
+        - name: id
+          in: path
+          description: Unique ID of the customer
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: x-sw-client-request-id
+          in: header
+          description: Unique ID for the request
+          required: true
+          schema:
+            type: string
+        - name: x-cm-client-user-agent
+          in: header
+          description: Type of device that consumes the endpoint
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Accounts successfully retrieved
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Account'
+        '204':
+          description: customer does not have an account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: The server could not understand the request because of incorrect syntax
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              
+              
+components: 
+  schemas:
+    Account:
+      type: object
+      properties:
+        id: 
+          type: integer
+          format: int64
+        numberAccount:
+          type: string
+          maxLength: 10
+        currencyType:
+          type: string
+          maxLength: 3
+        amount:
+          type: number
+          format: double
+          minimum: 0
+          multipleOf: 0.01
+        customerId: 
+          type: integer
+          format: int64
+        user:
+          type: string
+        date:
+          type: string
+          format: date-time #format (YYYY-MM-DDTHH:MM:SSZ)
+      required:
+        - numberAccount
+        - currencyType
+        - amount
+        - customerId
+        - user
+        - date
+        
+    Movement:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+          format: double
+          minimum: 0
+          multipleOf: 0.01
+      required:
+        - id
+        - amount
+        
+    Error:
+      type: object
+      properties:
+        tittle:
+          type: string
+        detail:
+          type: string
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+    ErrorDetail:
+      type: object
+      properties:
+        message:
+          type: string
+  
+    
