@@ -288,17 +288,16 @@ components:
     Movement:
       type: object
       properties:
-        id:
-          type: integer
-          format: int64
         amount:
           type: number
           format: double
           minimum: 0
           multipleOf: 0.01
+        user:
+          type: string
       required:
-        - id
         - amount
+        - user
         
     Error:
       type: object

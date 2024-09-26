@@ -35,5 +35,22 @@ public class AccountMapperM {
         return account;
     }
 
+    public Account toAccountUpdate(AccountEntity accountEntity) {
+        Account account = new Account();
+        account.setId(accountEntity.getId());
+        account.setNumberAccount(accountEntity.getNumberAccount());
+        account.setCurrencyType(accountEntity.getCurrencyType());
+        account.setAmount(accountEntity.getAmount());
+        account.setCustomerId(accountEntity.getCustomerId());
+        account.setUser(accountEntity.getUserModifies());
+
+        Instant instant = accountEntity.getDateModifies().toInstant();
+        OffsetDateTime offsetDateTime = instant.atOffset(ZoneOffset.UTC);
+        account.setDate(offsetDateTime);
+
+        return account;
+    }
+
+
 
 }

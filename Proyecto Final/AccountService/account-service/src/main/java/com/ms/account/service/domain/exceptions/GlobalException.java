@@ -15,7 +15,7 @@ public class GlobalException {
     })
     public ResponseEntity<com.ms.account.service.server.models.Error> exceptionNotController(Exception ex) {
         System.out.println("exception");
-
+        //400
         if (ex.getMessage().contains("Failed to convert value of type")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(this.error("ERROR","ID con caracteres especiales",ex.getMessage()));
         }
@@ -28,8 +28,20 @@ public class GlobalException {
     )
     public ResponseEntity<com.ms.account.service.server.models.Error> accountNotFoundException(AccountNotFoundException ex) {
         System.out.println("AccountNotFoundException");
+        //204
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(this.error("ERROR","Detalle del error",ex.getMessage()));
     }
+
+    @ExceptionHandler(
+            NotUpdateAmountException.class
+    )
+    public ResponseEntity<com.ms.account.service.server.models.Error> notUpdateAmountException(NotUpdateAmountException ex) {
+        System.out.println("NotUpdateAmountException");
+        //409
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(this.error("ERROR","Detalle del error",ex.getMessage()));
+    }
+
+
 
     com.ms.account.service.server.models.Error error (String tittle, String detail, String message) {
         com.ms.account.service.server.models.Error error = new com.ms.account.service.server.models.Error();
