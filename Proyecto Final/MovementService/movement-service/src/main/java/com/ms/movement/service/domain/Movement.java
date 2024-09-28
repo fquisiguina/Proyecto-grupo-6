@@ -6,7 +6,7 @@ import lombok.Data;
 public class Movement {
     private Long id;
 
-    private com.ms.movement.service.server.models.Movement.TypeMovementEnum typeMovement;
+    private TypeMovementEnum typeMovement;
 
     private Double amount;
 
