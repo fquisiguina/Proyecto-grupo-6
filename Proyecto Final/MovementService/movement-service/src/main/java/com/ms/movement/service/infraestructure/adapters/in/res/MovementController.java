@@ -20,8 +20,8 @@ public class MovementController implements MovementsApi {
     @CrossOrigin
     @Override
     public ResponseEntity<Movement> createMovement(String xSwClientRequestId, String xSwClientUserAgent, Movement movement) {
-        com.ms.movement.service.domain.Movement movementIn = movementDomainMapper.toMovementDomain(movement);
-        com.ms.movement.service.domain.Movement movementOut = movementInPort.createMovement(movementIn);
+        com.ms.movement.service.domain.models.Movement movementIn = movementDomainMapper.toMovementDomain(movement);
+        com.ms.movement.service.domain.models.Movement movementOut = movementInPort.createMovement(movementIn);
 
         return new ResponseEntity<Movement>(movementDomainMapper.toMovement(movementOut), HttpStatus.CREATED);
     }

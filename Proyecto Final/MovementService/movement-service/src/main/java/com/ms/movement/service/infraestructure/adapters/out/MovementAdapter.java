@@ -1,7 +1,7 @@
 package com.ms.movement.service.infraestructure.adapters.out;
 
 import com.ms.movement.service.application.ports.out.MovementOutPort;
-import com.ms.movement.service.domain.Movement;
+import com.ms.movement.service.domain.models.Movement;
 import com.ms.movement.service.infraestructure.adapters.out.entity.MovementEntity;
 import com.ms.movement.service.infraestructure.adapters.out.repository.MovementRepository;
 import com.ms.movement.service.infraestructure.adapters.out.repository.mappers.MovementMapper;

@@ -1,6 +1,6 @@
 package com.ms.movement.service.infraestructure.adapters.out.repository.mappers;
 
-import com.ms.movement.service.domain.Movement;
+import com.ms.movement.service.domain.models.Movement;
 import com.ms.movement.service.infraestructure.adapters.out.entity.MovementEntity;
 import org.mapstruct.Mapper;
 

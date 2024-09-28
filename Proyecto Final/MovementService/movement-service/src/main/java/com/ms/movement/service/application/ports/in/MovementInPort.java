@@ -1,7 +1,7 @@
 package com.ms.movement.service.application.ports.in;
 
 
-import com.ms.movement.service.domain.Movement;
+import com.ms.movement.service.domain.models.Movement;
 
 import java.util.List;
 

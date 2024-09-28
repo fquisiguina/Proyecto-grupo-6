@@ -1,6 +1,6 @@
 package com.ms.movement.service.infraestructure.adapters.in.res.mappers;
 
-import com.ms.movement.service.domain.Movement;
+import com.ms.movement.service.domain.models.Movement;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
