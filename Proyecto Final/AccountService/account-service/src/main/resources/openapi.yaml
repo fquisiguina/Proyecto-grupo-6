@@ -310,6 +310,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ErrorDetail'
+        status:
+          type: integer
     ErrorDetail:
       type: object
       properties:

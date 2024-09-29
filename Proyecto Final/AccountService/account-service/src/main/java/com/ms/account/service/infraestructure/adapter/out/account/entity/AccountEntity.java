@@ -16,7 +16,7 @@ public class AccountEntity {
     @Column(name = "acc_id_account")
     private Long id;
 
-    @Column(name = "acc_number_account", length = 10)
+    @Column(name = "acc_number_account", length = 10, unique = true)
     private String numberAccount;
 
     @Column(name = "acc_currency_type", length = 3)
