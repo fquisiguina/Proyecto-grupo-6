@@ -13,6 +13,11 @@ spring:
           uri: lb://ACCOUNT-MIDDLEEND
           predicates:
             - Path= /api/v1/accounts/**
+        - id: customer-middleend-route
+          uri: lb://CUSTOMER-MIDDLEEND
+          predicates:
+            - Path= /api/v1/customers/**
+
 eureka:
   client:
     serviceUrl:
