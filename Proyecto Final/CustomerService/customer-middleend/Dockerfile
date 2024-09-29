@@ -5,7 +5,7 @@ FROM gradle:jdk17 AS builder
 WORKDIR /app
 
 # Copiar los archivos de Gradle y el código fuente
-COPY ./customer-middleend .
+COPY ./CustomerService/customer-middleend .
 
 # Construir el proyecto
 RUN gradle build --no-daemon

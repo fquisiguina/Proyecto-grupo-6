@@ -1,0 +1,111 @@
+version: '3.7'
+
+services:
+  
+  service-registry:
+    image: service-registry:latest
+    build:
+      dockerfile: ./Registry/registry/Dockerfile
+    container_name: service-registry
+    restart: always
+    ports:
+      - "8056:8056"
+    environment:
+      - CUSTOM.SERVER.HOSTNAME=service-registry
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8056/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    working_dir: /app
+    command: [ "java", "-jar", "app.jar" ]
+    networks:
+      - ups-grp6
+
+  customer-service:
+    image: customer-service:latest
+    build:
+      dockerfile: ./CustomerService/customer-service/Dockerfile
+    container_name: customer-service
+    restart: always
+    ports:
+      - "8084:8084"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8056/eureka/
+    depends_on:
+      customer-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8084/api/v1/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    working_dir: /app
+    command: [ "java", "-jar", "app.jar" ]
+    networks:
+      - ups-grp6
+
+  customer-middleend:
+    image: customer-middleend:latest
+    build:
+      dockerfile: ./CustomerService/customer-middleend/Dockerfile
+    container_name: customer-middleend
+    ports:
+      - "8081:8081"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8056/eureka/
+#    depends_on:
+#      api-gateway:
+#        condition: service_healthy
+#      customer-service:
+#        condition: service_healthy
+    working_dir: /app
+    command: [ "java", "-jar", "app.jar" ]
+    networks:
+      - ups-grp6
+
+  api-gateway:
+    image: api-gateway:latest
+    build:
+      dockerfile: ./Gateway/gateway/Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8056/eureka/
+#    depends_on:
+#      service-registry:
+#        condition: service_healthy
+#      customer-service:
+#        condition: service_healthy
+    working_dir: /app
+    command: [ "java", "-jar", "app.jar" ]
+    networks:
+      - ups-grp6
+
+  customer-db:
+    image: postgres:15.8-bullseye
+    container_name: customer-db
+    user: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=admin
+      - POSTGRES_DB=customer_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d customer_db -U admin"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - ups-grp6
+
+volumes:
+  pgdata:
+
+networks:
+  ups-grp6:
+    name: ups-grp6
