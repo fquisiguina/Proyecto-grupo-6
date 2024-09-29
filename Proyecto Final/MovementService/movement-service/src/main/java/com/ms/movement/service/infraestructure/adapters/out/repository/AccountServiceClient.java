@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.cloud.openfeign.FeignClient;
 
-@FeignClient(url = "https://localhost:8085/api/v1", name = "movement-service")
+@FeignClient(url = "http://localhost:8085/api/v1", name = "movement-service")
 public interface AccountServiceClient {
     @GetMapping("/account/{id}")
     ResponseEntity<Account> getAccountById(@RequestHeader(value = "x-cm-client-request-id", required = true) String xCmClientRequestId,
