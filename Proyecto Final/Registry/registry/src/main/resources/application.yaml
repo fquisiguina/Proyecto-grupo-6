@@ -6,6 +6,20 @@ spring:
     name: registry
 
 eureka:
+  instance:
+    hostname: ${CUSTOM.SERVER.HOSTNAME:localhost}
+    prefer-ip-address: true
   client:
     register-with-eureka: false
     fetch-registry: false
+    service-url:
+      defaultZone:
+        http://${eureka.instance.hostname}:${server.port}/eureka
+  datacenter: 'UPS - GRUPO 6'
+  environment: 'Development'
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
