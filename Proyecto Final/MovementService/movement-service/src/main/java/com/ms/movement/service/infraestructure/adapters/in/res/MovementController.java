@@ -17,17 +17,21 @@ import java.util.List;
 public class MovementController implements MovementsApi {
     private final MovementInPort movementInPort;
     private final MovementDomainMapper movementDomainMapper;
+
     @CrossOrigin
     @Override
     public ResponseEntity<Movement> createMovement(String xSwClientRequestId, String xSwClientUserAgent, Movement movement) {
         com.ms.movement.service.domain.models.Movement movementIn = movementDomainMapper.toMovementDomain(movement);
         com.ms.movement.service.domain.models.Movement movementOut = movementInPort.createMovement(movementIn);
 
-        return new ResponseEntity<Movement>(movementDomainMapper.toMovement(movementOut), HttpStatus.CREATED);
+        return new ResponseEntity<>(movementDomainMapper.toMovement(movementOut), HttpStatus.CREATED);
     }
 
     @Override
-    public ResponseEntity<List<Movement>> getMovementByAccount(String accountId, String xSwClientRequestId, String xSwClientUserAgent) {
-        return MovementsApi.super.getMovementByAccount(accountId, xSwClientRequestId, xSwClientUserAgent);
+    public ResponseEntity<List<Movement>> getMovementByAccount(Integer accountId, String xSwClientRequestId, String xSwClientUserAgent) {
+        List<Movement> movementList = movementInPort.getMovementsByAccount(Long.valueOf(accountId)).stream()
+                .map(movementDomainMapper::toMovement).toList();
+
+        return new ResponseEntity<>(movementList, HttpStatus.OK);
     }
 }

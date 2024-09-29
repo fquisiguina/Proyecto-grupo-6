@@ -42,8 +42,7 @@ public class MovementService implements MovementInPort {
     }
 
     @Override
-    public List<Movement> getMovementsByAccount(String accountId) {
-        //List<Movement>  movementList = movementOutPort.
-        return List.of();
+    public List<Movement> getMovementsByAccount(Long accountId) {
+        return movementOutPort.getMovementsByAccount(accountId);
     }
 }

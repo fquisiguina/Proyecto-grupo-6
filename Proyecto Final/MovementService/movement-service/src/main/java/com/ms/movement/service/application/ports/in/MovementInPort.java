@@ -8,5 +8,5 @@ import java.util.List;
 public interface MovementInPort {
     Movement createMovement(Movement movement);
 
-    List<Movement> getMovementsByAccount(String accountId);
+    List<Movement> getMovementsByAccount(Long accountId);
 }

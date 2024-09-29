@@ -5,14 +5,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.cloud.openfeign.FeignClient;
 
-@FeignClient(name = "movement--service")
+@FeignClient(url = "https://localhost:8090/api/v1", name = "movement-service")
 public interface AccountServiceClient {
-    @GetMapping("/api/v1/account/{id}")
+    @GetMapping("/account/{id}")
     ResponseEntity<Account> getAccountById(@RequestHeader(value = "x-cm-client-request-id", required = true) String xCmClientRequestId,
                                            @RequestHeader(value = "x-cm-client-user-agent", required = true) String xCmClientUserAgent,
                                            @PathVariable Long id);
 
-    @PutMapping("/api/v1/account/{id}")
+    @PutMapping("/account/{id}")
     ResponseEntity<Account> updateAccount(@RequestHeader(value = "x-cm-client-request-id", required = true) String xCmClientRequestId,
                                           @RequestHeader(value = "x-cm-client-user-agent", required = true) String xCmClientUserAgent,
                                           @PathVariable Long id, @RequestBody Account account);

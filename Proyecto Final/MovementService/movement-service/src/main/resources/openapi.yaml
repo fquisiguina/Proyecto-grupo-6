@@ -4,9 +4,9 @@ info:
   description: |-
     <div style="text-align: justify;">
       <h3>Maestría en Software - Diseño de patrones de API</h3>
-      
+    
       <img src="https://blogposgrados.ups.edu.ec/hs-fs/hubfs/Logo-Posgrados.png?width=1517&height=262&name=Logo-Posgrados.png" alt="Image" align="right" width="400"/>
-      
+    
       <p>This is a contract to manage movemets data based on the OpenAPI 3.0 specification.This is a contract that uses the API First-Contract principle to standardize the creation of endpoints to be used in our service and improve the development of our APIs.</p> 
     </div>
   termsOfService: http://swagger.io/terms/
@@ -79,7 +79,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Error'
-                
+
   /movements/accounts/{accountId}:
     get:
       tags:
@@ -93,7 +93,7 @@ paths:
           description: Unique ID for account
           required: true
           schema:
-            type: string
+            type: integer
         - name: x-sw-client-request-id
           in: header
           description: Unique ID for the request
@@ -149,7 +149,7 @@ components:
         - typeMovement
         - amount
         - accountId
-      
+
     Error:
       type: object
       properties:
