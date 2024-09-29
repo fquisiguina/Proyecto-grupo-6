@@ -22,7 +22,7 @@ public class MovementController implements MovementsApi {
     @Override
     public ResponseEntity<Movement> createMovement(String xSwClientRequestId, String xSwClientUserAgent, Movement movement) {
         com.ms.movement.service.domain.models.Movement movementIn = movementDomainMapper.toMovementDomain(movement);
-        com.ms.movement.service.domain.models.Movement movementOut = movementInPort.createMovement(movementIn);
+        com.ms.movement.service.domain.models.Movement movementOut = movementInPort.createMovement(xSwClientRequestId, xSwClientUserAgent, movementIn);
 
         return new ResponseEntity<>(movementDomainMapper.toMovement(movementOut), HttpStatus.CREATED);
     }
@@ -31,6 +31,9 @@ public class MovementController implements MovementsApi {
     public ResponseEntity<List<Movement>> getMovementByAccount(Integer accountId, String xSwClientRequestId, String xSwClientUserAgent) {
         List<Movement> movementList = movementInPort.getMovementsByAccount(Long.valueOf(accountId)).stream()
                 .map(movementDomainMapper::toMovement).toList();
+        if (movementList.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
 
         return new ResponseEntity<>(movementList, HttpStatus.OK);
     }

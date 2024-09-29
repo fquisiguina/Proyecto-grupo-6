@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface MovementRepository extends JpaRepository<MovementEntity, Long> {
-    @Query(value = "SELECT m FROM  MovementEntity m WHERE m.accountId=?1", nativeQuery = true)
+    @Query(value = "SELECT mov FROM  MovementEntity mov WHERE mov.accountId=:accountId")
     List<MovementEntity> findByMovementsByAccountId(Long accountId);
 }

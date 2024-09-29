@@ -6,7 +6,7 @@ import com.ms.movement.service.domain.models.Movement;
 import java.util.List;
 
 public interface MovementInPort {
-    Movement createMovement(Movement movement);
+    Movement createMovement(String xSwClientRequestId, String xSwClientUserAgent, Movement movement);
 
     List<Movement> getMovementsByAccount(Long accountId);
 }
