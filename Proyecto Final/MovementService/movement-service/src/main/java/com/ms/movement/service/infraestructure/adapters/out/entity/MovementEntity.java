@@ -1,5 +1,6 @@
 package com.ms.movement.service.infraestructure.adapters.out.entity;
 
+import com.ms.movement.service.infraestructure.adapters.out.enums.TypeMovementEnumEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 

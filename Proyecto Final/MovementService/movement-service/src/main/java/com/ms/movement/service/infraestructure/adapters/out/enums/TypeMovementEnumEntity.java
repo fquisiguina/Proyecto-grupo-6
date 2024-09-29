@@ -1,4 +1,4 @@
-package com.ms.movement.service.infraestructure.adapters.out.entity;
+package com.ms.movement.service.infraestructure.adapters.out.enums;
 
 import lombok.Getter;
 
