@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    loadbalancer:
+      ribbon:
+        enable: false
+    gateway:
+      locator:
+        enable: true
+      routes:
+        - id: account-middleend-route
+          uri: lb://ACCOUNT-MIDDLEEND
+          predicates:
+            - Path= /api/v1/accounts/**
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8056/eureka/

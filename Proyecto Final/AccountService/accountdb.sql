@@ -57,7 +57,8 @@ CREATE TABLE IF NOT EXISTS account.acc_account_tbl
     acc_status boolean,
     acc_date_creates timestamp without time zone,
     acc_date_modifies timestamp without time zone,
-    CONSTRAINT acc_account_tbl_pkey PRIMARY KEY (acc_id_account)
+    CONSTRAINT acc_account_tbl_pkey PRIMARY KEY (acc_id_account),
+    CONSTRAINT "UNI_number_Account" UNIQUE (acc_number_account)
 )
 
 TABLESPACE pg_default;
