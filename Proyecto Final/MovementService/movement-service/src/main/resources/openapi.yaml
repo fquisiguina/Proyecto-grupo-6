@@ -94,6 +94,7 @@ paths:
           required: true
           schema:
             type: integer
+            minimum: 1
         - name: x-sw-client-request-id
           in: header
           description: Unique ID for the request

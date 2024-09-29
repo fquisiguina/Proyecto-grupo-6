@@ -1,7 +1,7 @@
 package com.ms.movement.service.application.service;
 
 import com.ms.movement.service.application.ports.in.AccountInPort;
-import com.ms.movement.service.domain.TypeMovementEnum;
+import com.ms.movement.service.domain.enums.TypeMovementEnum;
 import com.ms.movement.service.domain.models.Account;
 import com.ms.movement.service.domain.models.Movement;
 import com.ms.movement.service.infraestructure.adapters.out.repository.AccountServiceClient;
@@ -18,7 +18,7 @@ public class AccountService implements AccountInPort {
     public Account getAccount(String xSwClientRequestId, String xSwClientUserAgent, Long accountId) {
         ResponseEntity<Account> accountResponse = accountServiceClient.getAccountById(xSwClientRequestId, xSwClientUserAgent, accountId);
         if (accountResponse.getStatusCode().equals(HttpStatus.NO_CONTENT)) {
-            throw new RuntimeException("La cuenta no existe");
+            throw new RuntimeException("Error, verifique la cuenta " + accountId);
         }
 
         return accountResponse.getBody();
@@ -30,7 +30,7 @@ public class AccountService implements AccountInPort {
         ResponseEntity<Account> accountOut = accountServiceClient.updateAccount(xSwClientRequestId, xSwClientUserAgent, accountIn.getId(), accountIn);
 
         if (accountOut.getStatusCode() != HttpStatus.OK) {
-            throw new RuntimeException("Error al actualizar la cuenta");
+            throw new RuntimeException("Error al procesar la transacción.");
         }
         return accountOut.getBody();
     }

@@ -1,4 +1,4 @@
-package com.ms.movement.service.infraestructure.adapters.in.res.mappers;
+package com.ms.movement.service.infraestructure.adapters.in.rest.mappers;
 
 import com.ms.movement.service.domain.models.Movement;
 import org.mapstruct.Mapper;

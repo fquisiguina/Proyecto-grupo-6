@@ -1,4 +1,4 @@
-package com.ms.movement.service.domain;
+package com.ms.movement.service.domain.enums;
 
 import lombok.Getter;
 

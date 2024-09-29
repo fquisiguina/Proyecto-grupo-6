@@ -1,7 +1,7 @@
-package com.ms.movement.service.infraestructure.adapters.in.res;
+package com.ms.movement.service.infraestructure.adapters.in.rest;
 
 import com.ms.movement.service.application.ports.in.MovementInPort;
-import com.ms.movement.service.infraestructure.adapters.in.res.mappers.MovementDomainMapper;
+import com.ms.movement.service.infraestructure.adapters.in.rest.mappers.MovementDomainMapper;
 import com.ms.movement.service.server.MovementsApi;
 import com.ms.movement.service.server.models.Movement;
 import lombok.RequiredArgsConstructor;
