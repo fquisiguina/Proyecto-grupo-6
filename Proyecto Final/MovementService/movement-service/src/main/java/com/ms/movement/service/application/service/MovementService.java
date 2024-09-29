@@ -19,11 +19,9 @@ public class MovementService implements MovementInPort {
     @Override
     public Movement createMovement(String xSwClientRequestId, String xSwClientUserAgent, Movement movement) {
         validateAmount(movement);
-
         Account account = accountService.getAccount(xSwClientRequestId, xSwClientUserAgent, movement.getAccountId());
         validateMovement(movement, account);
         Account accountOut = accountService.processTransaction(xSwClientRequestId, xSwClientUserAgent, account, movement);
-
         return movementOutPort.save(movement);
     }
 

@@ -3,7 +3,7 @@ package com.ms.movement.service.infraestructure.adapters.out.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "mov_movement_tbl")
@@ -24,17 +24,9 @@ public class MovementEntity {
     @Column(name = "mov_account_id", nullable = false)
     private Long accountId;
 
-    @Column(name = "mov_user_creates")
-    private String userCreates;
-
-    @Column(name = "mov_user_modifies")
-    private String userModifies;
-
-    @Column(name = "mov_date_creates")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateCreate;
+    @Column(name = "mov_date_creates", updatable = false)
+    private LocalDateTime createdAt;
 
     @Column(name = "mov_date_modifies")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dateModifies;
+    private LocalDateTime updateAt;
 }

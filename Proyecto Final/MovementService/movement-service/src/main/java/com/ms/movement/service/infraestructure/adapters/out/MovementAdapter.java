@@ -9,6 +9,7 @@ import com.ms.movement.service.infraestructure.adapters.out.repository.mappers.M
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -20,6 +21,7 @@ public class MovementAdapter implements MovementOutPort {
     @Override
     public Movement save(Movement movement) {
         MovementEntity movementEntity = movementMapper.toMovementEntity(movement);
+        movementEntity.setCreatedAt(LocalDateTime.now());
         MovementEntity movementResponse = movementRepository.save(movementEntity);
         return movementMapper.toMovement(movementResponse);
     }
