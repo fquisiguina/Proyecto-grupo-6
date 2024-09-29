@@ -30,7 +30,7 @@ public class AccountController implements AccountsApi{
         return new ResponseEntity<>(
                 accountDomainMapper.toAccount(
                         accountInPort.saveAccount(
-                                accountDomainMapper.toAccountDomain(account)
+                                xSwClientRequestId, xCmClientUserAgent, accountDomainMapper.toAccountDomain(account)
                         )
                 ), HttpStatus.CREATED);
     }

@@ -2,6 +2,7 @@ package com.ms.account.service.domain.exceptions;
 
 import com.ms.account.service.domain.enums.SQLExceptionEnum;
 import com.ms.account.service.domain.util.Util;
+import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -12,6 +13,7 @@ import com.ms.account.service.server.models.Error;
 import com.ms.account.service.server.models.ErrorDetail;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
+import java.net.ConnectException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +43,29 @@ public class GlobalException {
         return ResponseEntity.badRequest().body(error);
     }*/
 
+    @ExceptionHandler(FeignException.class)
+    public ResponseEntity<Error> handleFeignException(FeignException ex) {
+        Error error = new Error();
+        error.setTittle("Conflict");
+        error.setDetail(ex.getMessage());
+        error.setStatus(HttpStatus.CONFLICT.value());
+
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(
+            ConnectException.class
+    )
+    public ResponseEntity<Error> connectException(ConnectException ex) {
+        //409
+        Error error = new Error();
+        error.setTittle("Connection Refused");
+        error.setDetail("Error Detail: " + ex.getMessage());
+        error.setErrors(List.of());
+        error.setStatus(HttpStatus.CONFLICT.value()); //409
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(
             MethodArgumentTypeMismatchException.class
     )
@@ -51,7 +76,7 @@ public class GlobalException {
         error.setDetail("Error Detail: " + ex.getMessage());
         error.setErrors(List.of());
         error.setStatus(HttpStatus.BAD_REQUEST.value()); //400
-        return ResponseEntity.badRequest().body(error);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 
@@ -65,7 +90,7 @@ public class GlobalException {
         error.setDetail("Error Detail: " + ex.getMessage());
         error.setErrors(List.of());
         error.setStatus(HttpStatus.NO_CONTENT.value()); //204
-        return ResponseEntity.badRequest().body(error);
+        return new ResponseEntity<>(error, HttpStatus.NO_CONTENT);
     }
 
     @ExceptionHandler(
@@ -78,7 +103,7 @@ public class GlobalException {
         error.setDetail("Error Detail: " + ex.getMessage());
         error.setErrors(List.of());
         error.setStatus(HttpStatus.CONFLICT.value()); //409
-        return ResponseEntity.badRequest().body(error);
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 
 
@@ -99,7 +124,7 @@ public class GlobalException {
         error.setErrors(List.of());
         error.setStatus(HttpStatus.BAD_REQUEST.value()); //400
 
-        return ResponseEntity.badRequest().body(error);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler({
@@ -118,7 +143,7 @@ public class GlobalException {
         error.setErrors(violations);
         error.setStatus(HttpStatus.BAD_REQUEST.value()); //400
 
-        return ResponseEntity.badRequest().body(error);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 
@@ -132,7 +157,7 @@ public class GlobalException {
         error.setErrors(List.of());
         error.setStatus(HttpStatus.BAD_REQUEST.value());
 
-        return ResponseEntity.badRequest().body(error);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 
