@@ -10,9 +10,15 @@ spring:
   ## database config H2
   datasource:
     driverClassName: org.postgresql.Driver
+<<<<<<< HEAD
     url: jdbc:postgresql://localhost:5433/customer_db?currentSchema=customer
     username: postgres
     password: 12345
+=======
+    url: ${SERVER_DATABASE_POSTGRES:jdbc:postgresql://localhost:5432/customer_db?currentSchema=customer}
+    username: Admin
+    password: Admin
+>>>>>>> branch 'desarrollo' of https://github.com/fquisiguina/Proyecto-grupo-6.git
 
   ## jpa structure config
   jpa:
