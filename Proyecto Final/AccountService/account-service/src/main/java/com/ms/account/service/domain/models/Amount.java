@@ -2,10 +2,8 @@ package com.ms.account.service.domain.models;
 
 import lombok.Data;
 
-import java.time.OffsetDateTime;
-
 @Data
-public class Movement {
+public class Amount {
     private Double amount;
 
     private String user;

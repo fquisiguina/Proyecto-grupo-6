@@ -17,6 +17,10 @@ spring:
           uri: lb://customer-middleend
           predicates:
             - Path= /api/v1/customers/**
+        - id: movement-middleend-route
+          uri: lb://MOVEMENT-MIDDLEEND
+          predicates:
+            - Path= /api/v1/movements/**
 
 eureka:
   client:

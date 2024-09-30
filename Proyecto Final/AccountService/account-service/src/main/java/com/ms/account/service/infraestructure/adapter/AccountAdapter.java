@@ -4,12 +4,11 @@ import com.ms.account.service.application.ports.out.AccountOutPort;
 import com.ms.account.service.domain.exceptions.AccountNotFoundException;
 import com.ms.account.service.domain.exceptions.NotUpdateAmountException;
 import com.ms.account.service.domain.models.Account;
-import com.ms.account.service.domain.models.Movement;
+import com.ms.account.service.domain.models.Amount;
 import com.ms.account.service.infraestructure.adapter.out.account.entity.AccountEntity;
 import com.ms.account.service.infraestructure.adapter.out.account.repository.AccountRepository;
 import com.ms.account.service.infraestructure.adapter.out.account.repository.mappers.AccountMapperM;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -50,15 +49,15 @@ public class AccountAdapter implements AccountOutPort {
     }
 
     @Override
-    public Account updateAccount(Long id, Movement movement) {
+    public Account updateAccount(Long id, Amount amount) {
         Optional<AccountEntity> optional = accountRepository.findById(id);
 
         if (optional.isPresent()) {
             try {
             AccountEntity accountEntity = optional.get();
-            accountEntity.setAmount(movement.getAmount());
+            accountEntity.setAmount(amount.getAmount());
             //accountEntity.setAmount(Double.parseDouble("a"));
-            accountEntity.setUserModifies(movement.getUser());
+            accountEntity.setUserModifies(amount.getUser());
             accountEntity.setDateModifies(new Date());
 
 

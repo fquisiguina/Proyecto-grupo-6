@@ -7,7 +7,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "mov_movement_tbl")
+@Table(name = "mov_movement_tbl", schema = "movements")
 @Data
 public class MovementEntity {
     @Id

@@ -59,6 +59,9 @@ dependencies {
 
 	//openapi dependencies
 	implementation 'io.swagger.core.v3:swagger-annotations:2.2.15'
+
+	//eureka client
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 }
 
 dependencyManagement {

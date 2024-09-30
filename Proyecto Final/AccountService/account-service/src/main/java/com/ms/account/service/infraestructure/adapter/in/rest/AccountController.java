@@ -1,11 +1,10 @@
 package com.ms.account.service.infraestructure.adapter.in.rest;
 
 import com.ms.account.service.application.ports.in.AccountInPort;
-import com.ms.account.service.domain.exceptions.AccountNotFoundException;
 import com.ms.account.service.infraestructure.adapter.in.rest.mappers.AccountDomainMapper;
-import com.ms.account.service.infraestructure.adapter.in.rest.mappers.MovementDomainMapper;
+import com.ms.account.service.infraestructure.adapter.in.rest.mappers.AmountDomainMapper;
 import com.ms.account.service.server.models.Account;
-import com.ms.account.service.server.models.Movement;
+import com.ms.account.service.server.models.Amount;
 import com.ms.customer.service.server.AccountsApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +21,7 @@ public class AccountController implements AccountsApi{
 
     private final AccountInPort accountInPort;
     private final AccountDomainMapper accountDomainMapper;
-    private final MovementDomainMapper movementDomainMapper;
+    private final AmountDomainMapper amountDomainMapper;
 
     @Override
     @CrossOrigin
@@ -62,12 +61,12 @@ public class AccountController implements AccountsApi{
     public ResponseEntity<Account> updateAccountMovement(Long id,
                                                          String xSwClientRequestId,
                                                          String xCmClientUserAgent,
-                                                         Movement movement) {
+                                                         Amount amount) {
         return new ResponseEntity<>(
                 accountDomainMapper.toAccount(
                         accountInPort.updateAccount(
                                 id,
-                                movementDomainMapper.toMovementDomain(movement)
+                                amountDomainMapper.toAmountDomain(amount)
                         )
                 ), HttpStatus.OK);
     }

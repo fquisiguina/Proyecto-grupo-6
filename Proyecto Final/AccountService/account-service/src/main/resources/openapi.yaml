@@ -168,7 +168,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Movement'
+              $ref: '#/components/schemas/Amount'
       responses:
         '200':
           description: Movement successfully updated
@@ -285,7 +285,7 @@ components:
         - user
         - date
         
-    Movement:
+    Amount:
       type: object
       properties:
         amount:

@@ -1,5 +1,11 @@
-spring:
-  application:
-  name: movement-middleend
 server:
   port: 8083
+
+spring:
+  application:
+    name: movement-middleend
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8056/eureka/
