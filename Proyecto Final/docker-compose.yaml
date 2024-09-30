@@ -31,6 +31,7 @@ services:
     ports:
       - "8084:8084"
     environment:
+      - SERVER_DATABASE_POSTGRES=jdbc:postgresql://customer-db:5432/customer_db?currentSchema=customer
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8056/eureka/
     depends_on:
       customer-db:

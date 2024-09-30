@@ -19,7 +19,7 @@ spring:
   ## database config H2
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/customer_db?currentSchema=customer
+    url: ${SERVER_DATABASE_POSTGRES:jdbc:postgresql://localhost:5432/customer_db?currentSchema=customer}
     username: Admin
     password: Admin
 
@@ -31,7 +31,7 @@ spring:
     show-sql: true
     format_sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
 
 management:
   endpoints:
