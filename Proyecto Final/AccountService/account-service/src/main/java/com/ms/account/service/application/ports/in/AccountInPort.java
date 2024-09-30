@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AccountInPort {
 
-    Account saveAccount (Account account);
+    Account saveAccount (String xSwClientRequestId, String xCmClientUserAgent, Account account);
 
     Account getById (Long id);
 
