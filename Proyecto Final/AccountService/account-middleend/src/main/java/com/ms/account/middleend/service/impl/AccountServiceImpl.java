@@ -3,8 +3,13 @@ package com.ms.account.middleend.service.impl;
 import com.ms.account.middleend.client.AccountServiceClient;
 import com.ms.account.middleend.domain.Account;
 import com.ms.account.middleend.domain.Movement;
+import com.ms.account.middleend.exception.AccountNotFoundException;
+import com.ms.account.middleend.exception.NotUpdateAmountException;
 import com.ms.account.middleend.service.AccountService;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +31,11 @@ public class AccountServiceImpl implements AccountService {
     public Account getAccountById(Long id,
                                   String xSwClientRequestId,
                                   String xCmClientUserAgent ) {
-        return accountServiceClient.getAccountById(id, xSwClientRequestId, xCmClientUserAgent). getBody();
+        ResponseEntity<Account> response = accountServiceClient.getAccountById(id, xSwClientRequestId, xCmClientUserAgent);
+        if (response.getStatusCode() != HttpStatus.OK) {
+            throw new AccountNotFoundException("Error");
+        }
+        return response.getBody();
     }
 
     @Override
@@ -41,6 +50,11 @@ public class AccountServiceImpl implements AccountService {
                                          String xSwClientRequestId,
                                          String xCmClientUserAgent,
                                          Movement movement) {
-        return accountServiceClient.updateAccountMovement(id, xSwClientRequestId, xCmClientUserAgent, movement).getBody();
+        ResponseEntity<Account> response = accountServiceClient.updateAccountMovement(id, xSwClientRequestId, xCmClientUserAgent, movement);
+        if (response.getStatusCode() != HttpStatus.OK) {
+            throw new NotUpdateAmountException("Error");
+        }
+        return response.getBody();
+        //return accountServiceClient.updateAccountMovement(id, xSwClientRequestId, xCmClientUserAgent, movement).getBody();
     }
 }

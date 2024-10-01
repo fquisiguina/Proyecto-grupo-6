@@ -5,7 +5,8 @@ import lombok.Getter;
 @Getter
 public enum SQLExceptionEnum {
 
-    ERROR_CONSTRAINT(23505,"Unique index or primary key violation");
+    ERROR_CONSTRAINT(23505,"Unique index or primary key violation"),
+    CONSTRAINT(0,"Unique index key violation");
 
     private final Integer code;
 

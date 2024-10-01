@@ -7,13 +7,13 @@ import org.springframework.cloud.openfeign.FeignClient;
 
 @FeignClient(url = "http://localhost:8085/api/v1", name = "movement-service")
 public interface AccountServiceClient {
-    @GetMapping("/account/{id}")
-    ResponseEntity<Account> getAccountById(@RequestHeader(value = "x-cm-client-request-id", required = true) String xCmClientRequestId,
+    @GetMapping("/accounts/{id}")
+    ResponseEntity<Account> getAccountById(@RequestHeader(value = "x-sw-client-request-id", required = true) String xCmClientRequestId,
                                            @RequestHeader(value = "x-cm-client-user-agent", required = true) String xCmClientUserAgent,
                                            @PathVariable Long id);
 
-    @PutMapping("/account/{id}")
-    ResponseEntity<Account> updateAccount(@RequestHeader(value = "x-cm-client-request-id", required = true) String xCmClientRequestId,
+    @PutMapping("/accounts/{id}")
+    ResponseEntity<Account> updateAccount(@RequestHeader(value = "x-sw-client-request-id", required = true) String xCmClientRequestId,
                                           @RequestHeader(value = "x-cm-client-user-agent", required = true) String xCmClientUserAgent,
                                           @PathVariable Long id, @RequestBody Account account);
 }
