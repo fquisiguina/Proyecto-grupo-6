@@ -19,7 +19,7 @@ info:
 
 externalDocs:
   description: Historia de usuario
-  url: https://github.com/users/bvegaM/projects/11/views/1?pane=issue&itemId=79803180
+  url: https://github.com/users/fquisiguina/projects/4/views/1
 
 servers:
   - url: http://localhost:8084/api/v1
