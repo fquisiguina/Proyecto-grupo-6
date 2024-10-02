@@ -12,11 +12,11 @@ services:
       - "8056:8056"
     environment:
       CUSTOM.SERVER.HOSTNAME: service-registry
-#    healthcheck:
-#      test: ["CMD", "curl", "-f", "http://localhost:8056/actuator/health"]
-#      interval: 10s
-#      timeout: 5s
-#      retries: 5
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8056/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     working_dir: /app
     command: [ "java", "-jar", "app.jar" ]
     networks:
@@ -34,6 +34,11 @@ services:
 #    depends_on:
 #      service-registry:
 #        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/v1/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     working_dir: /app
     command: [ "java", "-jar", "app.jar" ]
     networks:
@@ -75,6 +80,11 @@ services:
 #    depends_on:
 #      api-gateway:
 #        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/api/v1/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     working_dir: /app
     command: [ "java", "-jar", "app.jar" ]
     networks:
@@ -221,9 +231,6 @@ services:
       retries: 5
     networks:
       - ups-grp6
-
-volumes:
-  pgdata:
 
 networks:
   ups-grp6:
