@@ -10,9 +10,9 @@ spring:
   ## database config H2
   datasource:
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5433/customer_db
+    url: ${SERVER_DATABASE_POSTGRES:jdbc:postgresql://localhost:5433/customer_db?currentSchema=customer}
     username: postgres
-    password: 12345
+    password: 12345678
 
   ## jpa structure config
   jpa:
@@ -27,4 +27,4 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8056/eureka
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8056/eureka}

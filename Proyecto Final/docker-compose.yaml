@@ -1,4 +1,4 @@
-version: '3.7'
+version: '3.8'
 
 services:
   
@@ -11,7 +11,7 @@ services:
     ports:
       - "8056:8056"
     environment:
-      - CUSTOM.SERVER.HOSTNAME=service-registry
+      CUSTOM.SERVER.HOSTNAME: service-registry
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8056/actuator/health"]
       interval: 10s
@@ -22,6 +22,25 @@ services:
     networks:
       - ups-grp6
 
+  api-gateway:
+    image: api-gateway:latest
+    build:
+      dockerfile: ./Gateway/gateway/Dockerfile
+    container_name: api-gateway
+    ports:
+      - "8080:8080"
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8056/eureka/
+#    depends_on:
+#      service-registry:
+#        condition: service_healthy
+#      customer-service:
+#        condition: service_healthy
+    working_dir: /app
+    command: [ "java", "-jar", "app.jar" ]
+    networks:
+      - ups-grp6
+      
   customer-service:
     image: customer-service:latest
     build:
@@ -31,8 +50,8 @@ services:
     ports:
       - "8084:8084"
     environment:
-      - SERVER_DATABASE_POSTGRES=jdbc:postgresql://customer-db:5432/customer_db?currentSchema=customer
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8056/eureka/
+      SERVER_DATABASE_POSTGRES: jdbc:postgresql://customer-db:5432/customer_db?currentSchema=customer
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8056/eureka
     depends_on:
       customer-db:
         condition: service_healthy
@@ -45,7 +64,7 @@ services:
     command: [ "java", "-jar", "app.jar" ]
     networks:
       - ups-grp6
-
+      
   customer-middleend:
     image: customer-middleend:latest
     build:
@@ -65,17 +84,61 @@ services:
     networks:
       - ups-grp6
 
-  api-gateway:
-    image: api-gateway:latest
-    build:
-      dockerfile: ./Gateway/gateway/Dockerfile
-    container_name: api-gateway
+  customer-db:
+    image: postgres:17.0-alpine3.20
+    container_name: customer-db
+    restart: always
     ports:
-      - "8080:8080"
+      - 5432:5432
+    volumes:
+      - ./CUSdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: customer_db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d customer_db -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ups-grp6
+      
+  account-service:
+    image: account-service:latest
+    build:
+      dockerfile: ./AccountService/account-service/Dockerfile
+    container_name: account-service
+    restart: always
+    ports:
+      - "8085:8085"
+    environment:
+      SERVER_DATABASE_POSTGRES: jdbc:postgresql://account-db:5432/accountdb?currentSchema=account
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8056/eureka
+    depends_on:
+      customer-db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8085/api/v1/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    working_dir: /app
+    command: [ "java", "-jar", "app.jar" ]
+    networks:
+      - ups-grp6
+
+  account-middleend:
+    image: account-middleend:latest
+    build:
+      dockerfile: ./AccountService/account-middleend/Dockerfile
+    container_name: account-middleend
+    ports:
+      - "8082:8082"
     environment:
       - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8056/eureka/
 #    depends_on:
-#      service-registry:
+#      api-gateway:
 #        condition: service_healthy
 #      customer-service:
 #        condition: service_healthy
@@ -84,23 +147,23 @@ services:
     networks:
       - ups-grp6
 
-  customer-db:
-    image: postgres:15.8-bullseye
-    container_name: customer-db
-    user: postgres
+  account-db:
+    image: postgres:17.0-alpine3.20
+    container_name: account-db
+    restart: always
     ports:
-      - 5432:5432
+      - 5433:5432
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - ./ACCdata:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=admin
-      - POSTGRES_USER=admin
-      - POSTGRES_DB=customer_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: accountdb
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d customer_db -U admin"]
+      test: ["CMD-SHELL", "pg_isready -d accountdb -U postgres"]
       interval: 10s
       timeout: 5s
-      retries: 3
+      retries: 5
     networks:
       - ups-grp6
 
@@ -110,3 +173,4 @@ volumes:
 networks:
   ups-grp6:
     name: ups-grp6
+    driver: bridge

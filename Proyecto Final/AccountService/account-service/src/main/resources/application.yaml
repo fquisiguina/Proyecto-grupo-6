@@ -7,16 +7,18 @@ spring:
   application:
     name: account-service
   datasource:
-    url: jdbc:postgresql://localhost:5433/accountdb
     driverClassName: org.postgresql.Driver
+    url: ${SERVER_DATABASE_POSTGRES:jdbc:postgresql://localhost:5433/accountdb?currentSchema=account}
     username: postgres
-    password: 12345
+    password: 12345678
   jpa:
     show-sql: true
     properties:
       hibernate.format_sql: true
+    hibernate:
+      ddl-auto: update
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8056/eureka/
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8056/eureka}
