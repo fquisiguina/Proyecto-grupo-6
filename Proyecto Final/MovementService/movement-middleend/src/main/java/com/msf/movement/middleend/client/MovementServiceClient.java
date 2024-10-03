@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //@FeignClient(url = "http://localhost:8086/api/v1", name = "movement-service")
-@FeignClient(name = "movement-service")
+@FeignClient(name = "MOVEMENT-SERVICE")
 public interface MovementServiceClient {
     //@PostMapping("/movements")
     @PostMapping("/api/v1/movements")
