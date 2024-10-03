@@ -6,7 +6,7 @@ spring:
   application:
     name: movement-service
   datasource:
-    url: ${SERVER_DATABASE_POSTGRES:jdbc:postgresql://localhost:5432/movements_db}
+    url: ${SERVER_DATABASE_POSTGRES:jdbc:postgresql://localhost:5432/movements_db?currentSchema=movements}
     username: postgres
     password: 12345678
     driver-class-name: org.postgresql.Driver

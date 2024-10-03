@@ -16,7 +16,7 @@ public class AccountService implements AccountInPort {
     private final AccountServiceClient accountServiceClient;
 
     public Account getAccount(String xSwClientRequestId, String xSwClientUserAgent, Long accountId) {
-        ResponseEntity<Account> accountResponse = accountServiceClient.getAccountById(xSwClientRequestId, xSwClientUserAgent, accountId);
+        ResponseEntity<Account> accountResponse = accountServiceClient.getAccountById(accountId, xSwClientRequestId, xSwClientUserAgent);
         if (accountResponse.getStatusCode().equals(HttpStatus.NO_CONTENT)) {
             throw new RuntimeException("Error, verifique la cuenta " + accountId);
         }

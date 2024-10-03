@@ -142,7 +142,7 @@ services:
     ports:
       - "8082:8082"
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8056/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8056/eureka
 #    depends_on:
 #      api-gateway:
 #        condition: service_healthy
@@ -180,13 +180,13 @@ services:
     ports:
       - "8086:8086"
     environment:
-      SERVER_DATABASE_POSTGRES: jdbc:postgresql://movement-db:5432/movements_db?currentSchema=public
+      SERVER_DATABASE_POSTGRES: jdbc:postgresql://movement-db:5432/movements_db?currentSchema=movements
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://service-registry:8056/eureka
     depends_on:
       movement-db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8085/api/v1/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8086/api/v1/actuator/health"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -203,7 +203,7 @@ services:
     ports:
       - "8083:8083"
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8056/eureka/
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://service-registry:8056/eureka
 #    depends_on:
 #      api-gateway:
 #        condition: service_healthy
